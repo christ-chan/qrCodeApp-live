@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Live hosted -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./res/style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./res/NotifyStyle.css">
+    <link rel="icon" type="image/x-icon" href="./res/img/CFLOGO.png">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <!-- Public folder -->
+    <title> QRCode Scanner </title>
+</head>
+
+<body>
+    <div class="container" id="root">
+        <div class="connectionStatus">
+            <label class="status" id="status"></label>
+        </div>
+        <div class="loading">
+            <label id="label">No camera found.</label>
+        </div>
+        <div class="camClass">
+            <video autoplay onprogress="" id="preview"></video>
+        </div>
+        <div class="canvasDiv">
+            <canvas height="360" width="360"></canvas>
+        </div>
+        <div id="camBox" class="box-corner">
+            <p></p>
+        </div>
+
+        <div class="container c-mobile__button c-button">
+            <form id="formScan" action="#" method="post">
+                <input class="qrCode" type="text" name="qrCode" id="qrCode" readonly
+                    placeholder="Put QR Code"></input>
+
+                <div class="c-button">
+                    <button type="submit" class="button" id="loadButton">
+                        <span class="submit">Submit</span>
+                        <span class="loading"><i class="fa fa-refresh"></i></span>
+                        <span class="check"><i class="fa fa-check"></i></span>
+                    </button>
+                    <button type="button" class="buttonSwitch" id="switch">Switch</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Success Notify -->
+        <div id="success-box">
+            <div class="dot"></div>
+            <div class="dot two"></div>
+            <div class="face">
+                <div class="eye"></div>
+                <div class="eye right"></div>
+                <div class="mouth happy"></div>
+            </div>
+            <div class="shadow scale"></div>
+            <div class="message">
+                <h1 class="alert">Success!</h1>
+                <p>QR Code successfully transmitted.</p>
+                <p class="p-msg">Please let us know if you need any further assistance.
+                    <a href="mailto:systemdev3@cleanfuel.ph">systemdev3@cleanfuel.ph</a>
+                </p>
+            </div>
+            <button type="button" class="button-box" id="refreshSuccess">
+                <h1 class="green">Scan Again</h1>
+            </button>
+        </div>
+        <!-- Error Notify-->
+        <div id="error-box">
+            <div class="dot"></div>
+            <div class="dot two"></div>
+            <div class="face2">
+                <div class="eye"></div>
+                <div class="eye right"></div>
+                <div class="mouth sad"></div>
+            </div>
+            <div class="shadow move"></div>
+            <div class="message">
+                <h1 class="alert">Error!</h1>
+                <p>oh no, something went wrong.<br />please try again.</p>
+                <p id="p-msg">Should you have any questions, please let us know</p>
+                <a href="mailto:systemdev3@cleanfuel.ph">systemdev3@cleanfuel.ph</a></p>
+            </div>
+            <button type="button" class="button-box" id="refreshError">
+                <h1 class="red">Scan again</h1>
+            </button>
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript">
+    // var canvas = document.querySelector('canvas');
+    // const context =   canvas.getContext('2d');
+    const videoEle = document.getElementById('preview');
+
+    let scanner = new Instascan.Scanner({ video: videoEle});
+    let box = document.querySelector('.box-corner');
+
+    // scanner.addListener('load', ()=> {
+    //     context.drawImage(videoEle,0,0)
+    //     const imagedata = context.getImageData(0,0, 360, 360) //position: 0,0 width:360 & heigth: 360
+    //     // context.putImageData(imageData, 0, 0);
+    // });
+
+    Instascan.Camera.getCameras().then((cameras) => {
+        if (cameras.length > 0) {
+            
+            scanner.start(cameras[1]);
+            box.style.visibility = 'visible';
+        } else {
+            alert('No camera found');
+        }
+    }).catch(function (e) {
+        console.log(e);
+    })
+    scanner.addListener('scan', function (c) {
+        let labelChange = document.getElementById('label')
+        box.style.visibility = 'hidden';
+        document.getElementById('qrCode').value = c;
+        scanner.stop();
+        labelChange.textContent = "Scanned Complete."
+    })
+
+</script>
+<script type="text/javascript" src="./res/main.js"></script>
+<script src="./res/btnStyle.js">
+</script>
+
+</html>
