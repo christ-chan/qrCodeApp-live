@@ -105,7 +105,6 @@ let clickCount = 0
 function switchCam () {
   let camCurrent = 0
   clickCount++
-  console.log(clickCount)
 
   //CAMERA 1ST
   function cam1 () {
@@ -151,7 +150,7 @@ function switchCam () {
 }
 
 const back2Root = () => {
-  let ip = 'http://192.168.1.45:80'
+  let ip = 'https://github.com/christ-chan/qrCodeApp-live' //live link
   window.location.replace(`${ip}`)
 }
 
@@ -166,9 +165,6 @@ formEle.addEventListener('click', function (e) {
   e.preventDefault()
   const payload = new FormData(formEle)
   let data = [...payload]
-  // if ( data.length === 1 ) {
-  //     console.error("No data collected.");
-  //  } else {  }
 
   fetch(`${ServerIP}/ScannerQRCodeApp/`, {
     method: 'POST',
