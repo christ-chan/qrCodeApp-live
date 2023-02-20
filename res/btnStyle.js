@@ -150,7 +150,7 @@ function switchCam () {
 }
 
 const back2Root = () => {
-  let ip = 'https://github.com/christ-chan/qrCodeApp-live' //live link
+  let ip = 'https://christ-chan.github.io/qrCodeApp-live/' //live app link
   window.location.replace(`${ip}`)
 }
 
