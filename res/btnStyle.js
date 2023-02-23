@@ -58,8 +58,8 @@ function showNotify () {
   setInterval(async () => {
     const result = await checkStatus()
     if (
-      (result === true && 
-      formVal === 'MH,1,PREMIUM') ||
+      result === true && 
+      formVal === 'MH,1,PREMIUM' ||
       formVal === 'MH,1,UNLEADED' ||
       formVal === 'MH,1,DIESEL'
     ) {
